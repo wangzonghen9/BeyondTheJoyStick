@@ -12,24 +12,23 @@ CRGB leds[NUM_LEDS];
 
 bool swimMode;
 bool endGenerated;
-const long minSwimTimes = 10;
+const long minSwimTimes = 10;             //the range of the random num
 const long maxSwimTimes = 100;
-long randTimesGenerated;
+long randTimesGenerated;                  //the rand
 long countCurrentTimes;
-const int inputPin = 2;
+const int inputPin = 2;                   //tilt switch
 Bounce debouncer = Bounce(); 
-const int outputPin1 = 3;
-const int outputPin2 = 4;
-int inputState = 0;
-long theShark;
+const int outputPin1 = 8;                 //player 1
+const int outputPin2 = 9;                 //player 2
+long theShark;                            //who is the shark
 
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
 
 void setup() {
-  delay(3000); // power-up safety delay
+  delay(3000);                        // power-up safety delay
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
-  FastLED.setBrightness(  BRIGHTNESS );
+  FastLED.setBrightness(BRIGHTNESS );
   
 	Serial.begin(9600);
   pinMode(inputPin, INPUT);
@@ -37,52 +36,54 @@ void setup() {
   pinMode(outputPin2, INPUT);
   swimMode = true;
   endGenerated = false;
-  randomSeed(analogRead(0));
+  randomSeed(analogRead(0));                //set analog 0 as random seed
 
   //debouncer
   debouncer.attach(inputPin);
-  debouncer.interval(10); // interval in ms
+  debouncer.interval(10);                   // interval in ms. change from 5 to 25
 }
 
 void loop() {
+  //swim
   if(swimMode){
-    if(!endGenerated){
+    if(!endGenerated){                        //generate a random number
       randTimesGenerated = random(minSwimTimes, maxSwimTimes);
       countCurrentTimes = 0;
       endGenerated = !endGenerated;
       Serial.print("rand generated: ");
       Serial.println(randTimesGenerated);
-      currentPalette = OceanColors_p;    //led
+      currentPalette = OceanColors_p;           //set led strip to ocean color
       currentBlending = LINEARBLEND;
     }
-    debouncer.update();
+    debouncer.update();                     //the debouncer
     if(debouncer.fell()){
       countCurrentTimes++;
       Serial.print("count times: ");
       Serial.println(countCurrentTimes);
-      inputState = !inputState;
     }
-    if(countCurrentTimes >= randTimesGenerated){
+    if(countCurrentTimes >= randTimesGenerated){            //time to bite
       swimMode = !swimMode;
       Serial.println("out of swimMode");
     }
-    ledStripEntrance(1);
+    ledStripEntrance(1);                                  //swim
+    
+  //bite
   }else{
     if(theShark == 0){
-      theShark = random(3,5);
+      theShark = random(8,10);              //who is the shark
       Serial.print("theShark: ");
       Serial.println(theShark);
     }
     
-    if(digitalRead(theShark)){
-      //bite
+    if(digitalRead(theShark)){              //bite! start again
         swimMode = !swimMode;
         endGenerated = !endGenerated;
         countCurrentTimes = -1;
         theShark = 0;
     }
-    
-    if (Serial.available() > 0) {
+
+    //for test
+    if (Serial.available() > 0) {           //can start again by keyboard input
       char inChar = Serial.read();
       if(inChar == 'a'){
         swimMode = !swimMode;
@@ -92,7 +93,7 @@ void loop() {
       }
     }
 
-    if(theShark == 3){
+    if(theShark == 3){                      //led play mode
       ledStripEntrance(2);
     }else{
       ledStripEntrance(3);
