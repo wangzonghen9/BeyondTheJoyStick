@@ -91,10 +91,25 @@
 int melody[] = {
   NOTE_G3, NOTE_A3, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, 0, NOTE_C4,
   NOTE_G3, NOTE_A3, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, 0, NOTE_C4,
-  NOTE_G3, NOTE_A3, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, 0, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_B3, 0,
+  NOTE_G3, NOTE_A3, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, NOTE_C4, 0, NOTE_C4, 0, NOTE_C4, NOTE_C4, NOTE_B3, 0,
+  NOTE_A3, NOTE_B3, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, 0, NOTE_D4,
+  NOTE_A3, NOTE_B3, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, 0, NOTE_D4,
+  NOTE_A3, NOTE_B3, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, NOTE_D4, 0, NOTE_D4, 0, NOTE_D4, NOTE_D4, NOTE_CS4, 0,
+  NOTE_B3, NOTE_CS4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, 0, NOTE_E4,
+  NOTE_B3, NOTE_CS4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, 0, NOTE_E4,
+  NOTE_B3, NOTE_CS4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, NOTE_E4, 0, NOTE_E4, 0, NOTE_E4, NOTE_E4, NOTE_DS4, 0,
+  NOTE_CS4, NOTE_DS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, 0, NOTE_FS4,
+  NOTE_CS4, NOTE_DS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, NOTE_FS4, 0, NOTE_FS4,
+  NOTE_CS4, NOTE_DS4, NOTE_AS4, NOTE_CS5, NOTE_AS4, NOTE_GS4, NOTE_GS4, 0, NOTE_FS4, 0, NOTE_FS4, NOTE_FS4, NOTE_F4, 0,
+  NOTE_DS4, NOTE_F4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, 0, NOTE_GS4,
+  NOTE_DS4, NOTE_F4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, 0, NOTE_GS4,
+  NOTE_DS4, NOTE_F4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, NOTE_GS4, 0, NOTE_GS4, 0, NOTE_GS4, NOTE_GS4, NOTE_G4, 0,
+  NOTE_F4, NOTE_G4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, 0, NOTE_AS4,
+  NOTE_F4, NOTE_G4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, 0, NOTE_AS4,
+  NOTE_F4, NOTE_G4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, NOTE_AS4, 0, NOTE_AS4, 0, NOTE_AS4, NOTE_AS4, NOTE_A4, 0,
   NOTE_G4, NOTE_A4, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, 0, NOTE_C5,
-  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, 0, NOTE_C5,
-  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_C5, 0, NOTE_C5, NOTE_C5, NOTE_C5, NOTE_B4 
+  NOTE_G4, NOTE_A4, NOTE_C5, NOTE_D5, NOTE_E5, NOTE_G5, NOTE_E5, 0, NOTE_C5,
+  NOTE_G4, NOTE_A4, NOTE_A5, NOTE_G5, NOTE_E5, NOTE_D5, NOTE_D5, 0, NOTE_C5, 0, NOTE_G4, NOTE_A4, NOTE_B4, 0
 };
 
 int melodyEnd[] = {
@@ -105,77 +120,106 @@ int melodyEnd[] = {
 int noteDurations[] = {
   2, 2, 4, 4, 4, 8, 8, 4, 4,
   4, 4, 4, 4, 4, 8, 8, 4, 4,
-  4, 4, 4, 4, 4, 8, 8, 4, 8, 4, 4, 2, 2,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
   2, 2, 4, 4, 4, 8, 8, 4, 4,
   4, 4, 4, 4, 4, 8, 8, 4, 4,
-  4, 4, 4, 4, 4, 8, 8, 4, 8, 4, 4, 2
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
+  2, 2, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
+  2, 2, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
+  2, 2, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
+  2, 2, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2,
+  2, 2, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 4,
+  4, 4, 4, 4, 4, 8, 8, 4, 8, 8, 4, 4, 2, 2
 };
 
 int noteDurationsEnd[] = {
   4, 8, 8, 4, 4, 4, 4, 4
 };
 
+const int buzzerOutput = 3;
+const int controller = 4;
+
 boolean flag;
+
 
 void setup() {
   Serial.begin(9600);
+  pinMode(buzzerOutput, OUTPUT);
+  pinMode(controller, INPUT);
   flag = true;
   
 }
 
 void loop() {
-  if (Serial.available() > 0) {           
-        char inChar = Serial.read();
-        if(inChar == 'b'){
-          Serial.println("get b");
-          flag = true;
-        }
+  
+
+//  while(flag){
+
+    for (int thisNote = 0; thisNote < 224; thisNote++) {
+      if (flag && digitalRead(controller)) {           
+        Serial.println("turn off");
+        flag = false;
       }
 
-  while(flag){
-
-    for (int thisNote = 0; thisNote < 61; thisNote++) {
-      if (Serial.available() > 0) {           
-        char inChar = Serial.read();
-        if(inChar == 'a'){
-          Serial.println("get a");
-          playEndMusic();
-          flag = false;
-        }
+      if (!flag && !digitalRead(controller)) {           
+        Serial.println("turn on");
+        flag = true;
       }
-      if(!flag){
-        
-        break;
-      }
+//      if(!flag){
+//        playEndMusic();
+//        break;
+//      }
       
       // to calculate the note duration, take one second divided by the note type.
       //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
       int noteDuration = 1000 / noteDurations[thisNote];
-      tone(3, melody[thisNote], noteDuration);
+      tone(buzzerOutput, melody[thisNote], noteDuration);
       
       // to distinguish the notes, set a minimum time between them.
       // the note's duration + 30% seems to work well:
-      int pauseBetweenNotes = noteDuration * 1.1;
+      int pauseBetweenNotes = 0;
+      if(flag){
+        pauseBetweenNotes = noteDuration * 1.1;
+      }else{
+        pauseBetweenNotes = noteDuration * 0.7;
+      }
+      
       delay(pauseBetweenNotes);
       // stop the tone playing:
-      noTone(3);
+      noTone(buzzerOutput);
     }
-  } 
+//  } 
+  
 }
 
 
 void playEndMusic(){
   for (int thisNote = 0; thisNote < 8; thisNote++) {
+    if (!digitalRead(controller)) {           
+        Serial.println("turn on");
+        flag = true;
+        break;
+    }
     // to calculate the note duration, take one second divided by the note type.
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
     int noteDuration = 1000 / noteDurationsEnd[thisNote];
-    tone(8, melodyEnd[thisNote], noteDuration);
+    tone(buzzerOutput, melodyEnd[thisNote], noteDuration);
 
     // to distinguish the notes, set a minimum time between them.
     // the note's duration + 30% seems to work well:
     int pauseBetweenNotes = noteDuration * 1.30;
     delay(pauseBetweenNotes);
     // stop the tone playing:
-    noTone(8);
+    noTone(buzzerOutput);
   }
+
 }
