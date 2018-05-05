@@ -15,12 +15,12 @@ CRGB scoreleds[NUM_LEDS];
 bool swimMode;
 bool endGenerated;
 const long minSwimTimes = 10;             //the range of the random num
-const long maxSwimTimes = 30;
+const long maxSwimTimes = 100;
 long randTimesGenerated;                  //the rand
 long countCurrentTimes;
 const int inputPin1 = 2;                   //tilt switch1
 const int inputPin2 = 3;                   //tilt switch2
-const int inputPin3 = 3;                   //tilt switch3
+const int inputPin3 = 4;                   //tilt switch3
 Bounce debouncer1 = Bounce(); 
 Bounce debouncer2 = Bounce(); 
 Bounce debouncer3 = Bounce(); 
@@ -80,42 +80,41 @@ void loop() {
   if(!gameOver){
     //swim
     if(swimMode){
-  
-      /*
-       * for test, will delete
-       */
-      if (Serial.available() > 0) {           
-        char inChar = Serial.read();
-        if(inChar == '1'){
-          score1++;
-        }else if(inChar == '2'){
-          score2++;
-        }else if(inChar == '3'){
-          score3++;
-        }else if(inChar == '4'){
-          score1 = 0;
-          score2 = 0;
-          score3 = 0;
-        }
-      }
-      
+
+//for test, you can use keyboard input to simulate the bite
+//      if (Serial.available() > 0) {           
+//        char inChar = Serial.read();
+//        if(inChar == '1'){
+//          score1++;
+//        }else if(inChar == '2'){
+//          score2++;
+//        }else if(inChar == '3'){
+//          score3++;
+//        }else if(inChar == '4'){
+//          score1 = 0;
+//          score2 = 0;
+//          score3 = 0;
+//        }
+//      }
+
+      //initialization for a new round
       if(!endGenerated){                        //generate a random number
-        digitalWrite(musicPin, LOW);
-        digitalWrite(outputPin1, LOW);
+        digitalWrite(musicPin, LOW);            //set music pin to LOW: play normal speed music
+        digitalWrite(outputPin1, LOW);          
         digitalWrite(outputPin2, LOW);
         digitalWrite(outputPin3, LOW);
         randTimesGenerated = random(minSwimTimes, maxSwimTimes);
         countCurrentTimes = 0;
         endGenerated = !endGenerated;
         Serial.print("rand generated: ");
-        Serial.println(randTimesGenerated);
+        Serial.println(randTimesGenerated);       //tell you the random number generated
         currentPalette = OceanColors_p;           //set led strip to ocean color
         currentBlending = LINEARBLEND;
       }
-      debouncer1.update();                     //the debouncer
+      debouncer1.update();                     //update the debouncer
       debouncer2.update();
       debouncer3.update();
-      if(debouncer1.fell() || debouncer2.fell() || debouncer3.fell()){
+      if(debouncer1.fell() || debouncer2.fell() || debouncer3.fell()){    //detect any move
         countCurrentTimes++;
         Serial.print("count times: ");
         Serial.println(countCurrentTimes);
@@ -124,7 +123,7 @@ void loop() {
         swimMode = !swimMode;
         Serial.println("out of swimMode");
       }
-      ledStripEntrance(1, score1, score2, score3);                                  //swim
+      ledStripEntrance(1, score1, score2, score3);                    //swim
       
     //bite
     }else{
@@ -137,7 +136,6 @@ void loop() {
       }
   
       
-      
       if(digitalRead(theShark)){              //bite!
           if(theShark == 8){
             score1++;
@@ -146,11 +144,11 @@ void loop() {
           }else{
             score3++;
           }
-          swimMode = !swimMode;
+          swimMode = !swimMode;              
           endGenerated = !endGenerated;
           countCurrentTimes = -1;
           theShark = 0;
-          if(score1 >= 5){
+          if(score1 >= 5){                  //whether anyone reaches 5 points. game over
             digitalWrite(musicPin, LOW);
             gameOver = true;
             winner = 1;
@@ -165,18 +163,6 @@ void loop() {
           }
       }
   
-       /*
-       * for test, will delete
-       */
-      if (Serial.available() > 0) {           
-        char inChar = Serial.read();
-        if(inChar == 'a'){
-          swimMode = !swimMode;
-          endGenerated = !endGenerated;
-          countCurrentTimes = -1;
-          theShark = 0;
-        }
-      }
   
       if(theShark == 8){                      //led play mode
         ledStripEntrance(2, score1, score2, score3);
@@ -198,12 +184,12 @@ void loop() {
     }
   }else{
     endScore(winner);
-    ledStripEntrance(5, 0, 0, 0);
+    ledStripEntrance(5, 0, 0, 0);              
   }
 }
 
 
-void ledStripEntrance(int ledMode, int score1, int score2, int score3){
+void ledStripEntrance(int ledMode, int score1, int score2, int score3){               //led controller function
     static uint8_t startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
     FillLEDsFromPaletteColors(startIndex, ledMode, score1, score2, score3);
@@ -262,21 +248,17 @@ void FillLEDsFromPaletteColors( uint8_t colorIndex, int ledMode, int score1, int
     }
 }
 
-void endScore(int winner){
+void endScore(int winner){                             //score led after game over
   static uint8_t startIndex = 0;
-  startIndex = startIndex + 1; /* motion speed */
-  
+  startIndex = startIndex + 1; 
   FillLEDsFromPaletteColorsForEnd( startIndex, winner);
-  
   FastLED.show();
   FastLED.delay(1000 / UPDATES_PER_SECOND);
-  
 }
 
 void FillLEDsFromPaletteColorsForEnd( uint8_t colorIndex, int winner)
 {
     uint8_t brightness = 255;
-    
     for( int i = 0; i < NUM_LEDS; i++) {
         if(winner == 1){
           if(i < 5){
